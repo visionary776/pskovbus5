@@ -1,16 +1,12 @@
 
 
 import 'dart:async';
-
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:pskov_bus_5/response.dart';
 import 'package:pskov_bus_5/result.dart';
-
 import 'package:pskov_bus_5/stopsList.dart';
 import 'colors.dart';
 import 'repository.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:pskov_bus_5/shared_preferences_util.dart';
 
 StopList stopsListClass=StopList();
@@ -29,6 +25,7 @@ var routeList=stopsListClass.getRoutes();
 
 var favList=[""];
 var favListRoutes=[""];
+var favListId=[];
 var favouriteCounter=0;
 var favPointer=1;
 class StopNameListView extends StatefulWidget{
@@ -65,7 +62,8 @@ late Future <int> fav1,fav2,fav3,fav4,fav5,favCounter;
            String favStop=stopsListClass.getName(data);
            String favRoutes=stopsListClass.getRoutesForOne(data);
            favList.add(favStop);
-           print ("favStop[$i]:   $favStop ");
+           favListId.add(data);
+           print ("favStop[$i]:   $favStop, id: $data ");
 
            favListRoutes.add(favRoutes);
 
@@ -77,7 +75,6 @@ late Future <int> fav1,fav2,fav3,fav4,fav5,favCounter;
 
   }
 
-//var stopsListBase=stopsListClass.getNames();
 
 
   @override
@@ -89,63 +86,69 @@ late Future <int> fav1,fav2,fav3,fav4,fav5,favCounter;
           color: colorBkgr,
 
 
-          child:ListView.builder(
+          child: ListView.builder(
 
-            padding:const EdgeInsets.all(9),
+                padding:const EdgeInsets.all(9),
 
-            itemCount: stopsList.length,
-            itemBuilder: (BuildContext context, int index){
-              return ListTile(
-                title:Text(stopsList[index] ,
-                  style: TextStyle(fontSize: 17),) ,
-                subtitle: Text("   "+routeList[index],
-                  style: TextStyle(fontSize: 13,fontStyle: FontStyle.italic, color: Colors.black54),) ,
+                itemCount: stopsList.length,
+                itemBuilder: (BuildContext context, int index){
+                  return ListTile(
 
-                onTap: (){
+                    title:Text(stopsList[index] ,
+                      style: TextStyle(fontSize: 17),) ,
+                    subtitle: Text("   "+routeList[index],
+                      style: TextStyle(fontSize: 13,fontStyle: FontStyle.italic, color: Colors.black54),) ,
+                    selectedTileColor: Colors.lime,
 
-                 stopUser=stopsList[index];
-                 stopId=stopsListClass.getId(index);
-                 responseFuture=repository.fetchData(stopId) ;
-                  response.stopName=stopUser;
-                  response.futureResult=responseFuture; // result.timeTable=timeTableList.timeTable;
-                 Navigator.pop(context, response);
+                    onTap: (){
+
+                      stopUser=stopsList[index];
+                      stopId=stopsListClass.getId(index);
+                      responseFuture=repository.fetchData(stopId) ;
+                      response.stopName=stopUser;
+                      response.futureResult=responseFuture; // result.timeTable=timeTableList.timeTable;
+                      Navigator.pop(context, response);
+                    },
+
+                    onLongPress: (()async {
+                      setState(() {
+
+                        if(favouriteCounter<5){
+                          favouriteCounter++;
+                        }
+                        stopUser=stopsList[index];
+                        stopId=stopsListClass.getId(index);
+                        response.stopName=stopUser;
+                        SharedPreferencesUtil.saveData("fav$favPointer", stopId);
+                        SharedPreferencesUtil.saveData("favCounter", favouriteCounter);
+                        print ("******Записана остановка:     $stopUser,  favoriteCounter: $favouriteCounter, favPointer: $favPointer");
+
+
+
+                        favPointer++;
+                        if (favPointer==6){
+                          favPointer=1;
+                        }
+
+                        final snackBar = SnackBar(content: Text('$stopUser Добавлена в мои остановки!'));
+                        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                        Navigator.pop(context, response);
+
+                      });
+                    }
+
+
+
+                    ),
+
+                  );
+
                 },
-
-               onLongPress: (()async {
-                 setState(() {
-
-                   if(favouriteCounter<5){
-                     favouriteCounter++;
-                   }
-                   stopUser=stopsList[index];
-                   stopId=stopsListClass.getId(index);
-                   response.stopName=stopUser;
-                   SharedPreferencesUtil.saveData("fav$favPointer", stopId);
-                   SharedPreferencesUtil.saveData("favCounter", favouriteCounter);
-                   print ("******Записана остановка:     $stopUser,  favoriteCounter: $favouriteCounter, favPointer: $favPointer");
+              ),
 
 
 
-                   favPointer++;
-                   if (favPointer==5){
-                     favPointer=1;
-                   }
 
-                   final snackBar = SnackBar(content: Text('$stopUser Добавлена в мои остановки!'));
-                   ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                   Navigator.pop(context, response);
-
-                 });
-               }
-
-
-
-                   ),
-
-              );
-
-            },
-          ),
         )
     );
 

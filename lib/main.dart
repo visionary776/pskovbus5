@@ -191,14 +191,7 @@ class _TimeTableListViewState extends State<TimeTableListView> {
   }
 }
 
-/*
-List<String>resultTable(Result result){
-  List <String> resultTable;
-  for(int i=0; i<result.routes.length; i++) {
-    resultTable.add(result.routes[i]+":")
 
-  }}
-*/
 
 
 
