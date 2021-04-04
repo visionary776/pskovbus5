@@ -175,10 +175,15 @@ class StopList {
   }
 
 String getRoutesForOne(int id){
-    String routes="";
+    String routes="маршруты: ";
   for (int i = 0; i < stopsList.length; i++){
     if(stopsList[i].id==id){
-      routes=stopsList[i].routes.toString();
+
+
+      for(int item in stopsList[i].routes){
+        routes+=item.toString()+", ";
+      }
+      //routes=stopsList[i].routes.toString();
     }
   }
     return routes;
