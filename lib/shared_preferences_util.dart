@@ -6,7 +6,7 @@ class SharedPreferencesUtil {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
  prefs.setInt(key,id);
-   // print("сохранили fav1: $id ");
+   // print("сохранили $key: $id ");
   }
 
   static Future <int>getData(String key) async {
@@ -15,7 +15,7 @@ class SharedPreferencesUtil {
 
 
   var res = prefs.getInt(key)??0;
-   // print("загрузили fav1: $res ");
+   // print("загрузили $key: $res ");
 
     return res;
   }

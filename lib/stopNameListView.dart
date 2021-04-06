@@ -12,7 +12,7 @@ import 'package:pskov_bus_5/shared_preferences_util.dart';
 StopList stopsListClass=StopList();
 Repository repository=Repository();
 
-String stopUser="Не выбрана остановка";
+String stopUser="";
 int stopId=0;
 Result result=Result([""], [""]);
 Future<Result?> responseFuture=Future.value(result);
@@ -53,13 +53,30 @@ late Future <int> fav1,fav2,fav3,fav4,fav5,favCounter;
   void initState(){
     super.initState();
 
-
+    loadFavorite();
 
       setState(() {
 
+        stopListMix.clear();
+        routeListMix.clear();
+        if (favList.isNotEmpty){
+          stopListMix.addAll(favList);
+          routeListMix.addAll(favListRoutes.toList());
+        }
+/*
+  if(favList.isEmpty){
+    favList.add("Мои остановки-пусто. Долгое нажатие добавляет..");
+    favListRoutes.add(" ");
+  }
+*/
 
 
-       loadFavorite();
+        print ("favList:  ${favList.toString()} ");
+
+        stopListMix.addAll(stopsList);
+        routeListMix.addAll(routeList);
+
+      // loadFavorite();
 
       });
     // final snackBar = SnackBar(content: Text('$stopUser Длинное нажатие добавляет в начало списка!'));
@@ -88,7 +105,12 @@ late Future <int> fav1,fav2,fav3,fav4,fav5,favCounter;
                       style: TextStyle(fontSize: 13,fontStyle: FontStyle.italic, color: Colors.black54),) ,
                     selectedTileColor: Colors.lime,
 
+
+
                     onTap: (){
+
+
+
                       stopId=stopsListClass.getId(index);
 
                       if(favouriteCounter>0){
@@ -96,7 +118,13 @@ late Future <int> fav1,fav2,fav3,fav4,fav5,favCounter;
                            stopId=stopsListClass.getId(index-favouriteCounter);
                          }else if(favListId.isNotEmpty){
                            stopId=favListId[index];
+
+
+
                          }
+                      }else{
+                        final snackBar = SnackBar(content: Text(' Длинное нажатие добавляет в начало списка!'));
+                        ScaffoldMessenger.of(context).showSnackBar(snackBar);
                       }
                                 print ("fetchData stopId:$stopId");
                       responseFuture=repository.fetchData(stopId);
@@ -134,64 +162,90 @@ late Future <int> fav1,fav2,fav3,fav4,fav5,favCounter;
       // index -= favouriteCounter;
        stopId=stopsListClass.getId(index-favouriteCounter);
      }else{
-       stopId=stopsListClass.getId(index);
+       final snackBar = SnackBar(content: Text('Эта остановка уже в моем списке!'));
+       ScaffoldMessenger.of(context).showSnackBar(snackBar);
+       stopId=favListId[index];
      }
 
+   }else{
+     stopId=stopsListClass.getId(index);
    }
+
+
     stopUser=stopListMix[index];
     response.stopName=stopUser;
-    if(favouriteCounter<5){
-      favouriteCounter++;
-    }
+
+   if(favouriteCounter<5){
+     favouriteCounter++;
+
+   }
 
     SharedPreferencesUtil.saveData("fav$favPointer", stopId);
     SharedPreferencesUtil.saveData("favCounter", favouriteCounter);
-    print ("******Записана остановка:     $stopUser,  favoriteCounter: $favouriteCounter, favPointer: $favPointer");
+    print ("******Записана остановка:     $stopUser,  favoriteCounter: $favouriteCounter, favPointer: $favPointer , StopID:   $stopId, index: $index", );
 
-loadFavorite();
+
+
 
     favPointer++;
     if (favPointer==6){
       favPointer=1;
     }
+   loadFavorite();
+
   }
 
 void loadFavorite(){
 
   SharedPreferencesUtil.getData("favCounter").then((int counter){
     favouriteCounter=counter;
-    print ("favoriteCounter from future:   $favouriteCounter");
+    print ("favoriteCounter SHAREDPREF:   $favouriteCounter");
   });
   if (favouriteCounter > 0) {
 
 
-    for (var i = 1; i<=favouriteCounter; i++) {
-      var data= SharedPreferencesUtil.getData("fav$i");
+    for (var i = 0; i<favouriteCounter; i++) {
+      var data= SharedPreferencesUtil.getData("fav${i+1}");
 
       data.then((int value) {
-        favStop=stopsListClass.getName(value);
-        favRoutes=stopsListClass.getRoutesForOne(value);
-        favList.insert(i-1,favStop);
-        favListRoutes.insert(i-1, favRoutes);
-        favListId.insert(i-1,value);
+
+        if(value>0){
+          favStop=stopsListClass.getName(value);
+          favRoutes=stopsListClass.getRoutesForOne(value);
+          favList.insert(i,favStop);
+          favListRoutes.insert(i, favRoutes);
+          favListId.insert(i,value);
+
+        }
+
+
+
       });
     }
 
-    favList=favList.take(5).toList();
-    favListRoutes=favListRoutes.take(6).toList();
-    favListId=favListId.take(5).toList();
+    favList=favList.take(favouriteCounter).toList();
+    favListRoutes=favListRoutes.take(favouriteCounter).toList();
+    favListId=favListId.take(favouriteCounter).toList();
   }
 
-  stopListMix.clear();
+ /* stopListMix.clear();
   routeListMix.clear();
   if (favList.isNotEmpty){
     stopListMix.addAll(favList);
     routeListMix.addAll(favListRoutes.toList());
   }
+*//*
+  if(favList.isEmpty){
+    favList.add("Мои остановки-пусто. Долгое нажатие добавляет..");
+    favListRoutes.add(" ");
+  }
+*//*
+
+
   print ("favList:  ${favList.toString()} ");
 
   stopListMix.addAll(stopsList);
-  routeListMix.addAll(routeList);
+  routeListMix.addAll(routeList);*/
 
 }
 
