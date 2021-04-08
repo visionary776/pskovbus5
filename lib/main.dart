@@ -3,18 +3,19 @@ import 'package:flutter/material.dart';
 import 'package:pskov_bus_5/response.dart';
 import 'package:pskov_bus_5/result.dart';
 import 'package:pskov_bus_5/stopNameListView.dart';
-
+import 'package:pskov_bus_5/shared_preferences_util.dart';
 import 'colors.dart';
+import 'favorite.dart';
 
 
 
-var stopNameList = StopNameListView();
+
 // List <String> dataList=[];
 Result result=Result([""], [""]);
 Future<Result> responseFuture=Future.value(result);
 Response? response=Response("", responseFuture);
-
-
+Favorite favorite = Favorite([], [], []);
+var stopNameList = StopNameListView(fav: favorite);
 
 void main() {
   runApp(MyApp());
@@ -55,6 +56,20 @@ class _MyHomePageState extends State<MyHomePage> {
 
   _MyHomePageState();
 
+@override
+void initState(){
+  super.initState();
+  setState(() {
+    SharedPreferencesUtil.getFavorite().then((Favorite fav){
+      favorite=fav;
+     // print("******** setState in main::::: ${favorite.favList}");
+    });
+
+  });
+}
+
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -73,7 +88,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   response = await Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => StopNameListView()));
+                          builder: (context) => StopNameListView(fav:favorite)));
 
 
                   setState(() {

@@ -1,9 +1,13 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.shagapov.pskov_bus_5">
     <uses-permission android:name="android.permission.INTERNET"/>
     <application
-        android:label="pskov_bus_5"
-        android:icon="@mipmap/ic_launcher">
+        android:label="Автобусы Пскова Табло"
+        android:icon="@mipmap/ic_launcher"
+        android:usesCleartextTraffic="true"
+        tools:targetApi="m">
+
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"
@@ -38,5 +42,6 @@
         <meta-data
             android:name="flutterEmbedding"
             android:value="2" />
+
     </application>
 </manifest>
