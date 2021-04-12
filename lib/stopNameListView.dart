@@ -12,7 +12,7 @@ import 'package:pskov_bus_5/shared_preferences_util.dart';
 
 StopList stopsListClass=StopList();
 Repository repository=Repository();
-Favorite favorite = Favorite([], [], []);
+//Favorite favorite = Favorite([], [], []);
 
 String stopUser="";
 int stopId=0;
@@ -33,15 +33,13 @@ var routeListMix=[];
 String favStop="";
 String favRoutes="";
 int favId=0;
-//Favorite fav=Favorite([], [], []);
+Favorite fav=Favorite([], [], []);
 
 class StopNameListView extends StatefulWidget{
- //final Favorite fav;
 
 
 StopNameListView(  {Key? key,  }):super(key: key);
 
-//final Widget child;
 
 @override
 _StopNameListViewState createState()=>_StopNameListViewState();
@@ -52,57 +50,30 @@ class _StopNameListViewState extends State<StopNameListView>{
 
 late Future <int> fav1,fav2,fav3,fav4,fav5,favCounter;
 
-Favorite fav=Favorite([], [], []);
+//Favorite fav=Favorite([], [], []);
+int _selectedIndex = -1;
+ _StopNameListViewState();
 
-  _StopNameListViewState();
-
-
-
-
-/*  @override
-  Widget build(BuildContext context){
-    return Provider.value(
-      value: fav,
-      child: Provider.value(
-          value: this,
-      child: widget.child,),
-    );
-  }*/
-// void _onChangeState(newData){
-//   setState(() {
-//     fav=newData;
-//   });
-// }
 
   @override
   void initState(){
     super.initState();
 
 
-/*
-Consumer<Favorite>(
-  builder: (context, value,child),
-      fav=value;
-)
-*/
-
-   // Favorite fav=Provider.of<Favorite>(context);
-
-
-fav=context.read<Favorite>();
-
 
       setState(() {
+        fav= Provider.of<Favorite>(context, listen: false);
+        print("******** favList from Provider::::: ${fav.favList}");
 
         loadFavorite();
-
+        print("******** favList from loadFavorite() in  init::::: ${favList}");
         if (favList.isEmpty){
           favListId=fav.favListId;
           favList=fav.favList;
           favListRoutes=fav.favListRoutes;
           favouriteCounter=favList.length;
 
-          print("******** favList from navigator::::: $favList");
+          print("****Скопировали из Provider!!");
         }
 
 
@@ -159,12 +130,18 @@ fav=context.read<Favorite>();
                       style: TextStyle(fontSize: 17),) ,
                     subtitle: Text("   "+routeListMix[index],
                       style: TextStyle(fontSize: 13,fontStyle: FontStyle.italic, color: Colors.black54),) ,
-                    selectedTileColor: Colors.lime,
+                    selectedTileColor: Colors.limeAccent,
+                    selected: index == _selectedIndex,
+
+
 
 
 
                     onTap: (){
-
+                      setState(() {
+                        // устанавливаем индекс выделенного элемента
+                        _selectedIndex = index;
+                      });
 
 
                       stopId=stopsListClass.getId(index);
@@ -191,7 +168,7 @@ fav=context.read<Favorite>();
 
                     onLongPress: (()async {
                       setState(() {
-
+                        _selectedIndex = index;
                      addFavorite(index);
                      response=fetchDatas(stopId,index);
 
@@ -267,7 +244,7 @@ void loadFavorite(){
     favListId=favorite.favListId;
 
     favList=favorite.favList;
-    print("******** favList in getFavorite()::::: $favList");
+   // print("******** favList in getFavorite()::::: $favList");
     favListRoutes=favorite.favListRoutes;
     favouriteCounter=favorite.favList.length;
   });

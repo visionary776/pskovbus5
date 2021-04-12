@@ -15,7 +15,7 @@ import 'favorite.dart';
 Result result=Result([""], [""]);
 Future<Result> responseFuture=Future.value(result);
 Response? response=Response("", responseFuture);
-Favorite favorite = Favorite([], [], []);
+//Favorite favorite = Favorite([], [], []);
 var stopNameList = StopNameListView();
 
 void main() {
@@ -65,8 +65,12 @@ void initState(){
   super.initState();
   setState(() {
     SharedPreferencesUtil.getFavorite().then((Favorite fav){
-      favorite=fav;
-     // print("******** setState in main::::: ${favorite.favList}");
+
+    Provider.of<Favorite>(context, listen: false).favList=fav.favList;
+    Provider.of<Favorite>(context, listen: false).favListId=fav.favListId;
+    Provider.of<Favorite>(context, listen: false).favListRoutes=fav.favListRoutes;
+
+      print("******** setState in main::::: ${Provider.of<Favorite>(context, listen: false).favList}");
     });
 
   });

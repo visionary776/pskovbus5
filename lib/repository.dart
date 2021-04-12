@@ -47,12 +47,15 @@ Future <Result>?  response;
 
             switch(element.text.length){
               case 1:
-                spaceFrmt="    ";//3 space
+                spaceFrmt="     ";//3 space
                 break;
               case 2:
-                spaceFrmt="  "; //2 space
+                spaceFrmt="   "; //2 space
             break;
               case 3:
+                spaceFrmt="  ";//1 space
+                break;
+                case 4:
                 spaceFrmt=" ";//1 space
                 break;
             }
@@ -95,6 +98,12 @@ Future <Result>?  response;
 
  Result convertString(Result result){
      var len=result.routes.length;
+
+     if (len==0){
+       result.routes.insert(0,"    ");
+       result.timeTable.insert(0,"   Нет данных..");
+       print(" длинна массива 00 нет данных");
+     }
 
      for (int i=0; i<len-1; i++){//  берем поочередно маршрут
 
