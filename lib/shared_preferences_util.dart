@@ -16,20 +16,6 @@ class SharedPreferencesUtil {
    // print("сохранили $key: $id ");
   }
 
-  static Future <int>getData(String key) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-
-
-
-  var res = prefs.getInt(key)??0;
-   // print("загрузили $key: $res ");
-
-    return res;
-  }
-
-
-
-
 
   static Future <Favorite> getFavorite() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();

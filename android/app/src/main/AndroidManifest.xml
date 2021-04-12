@@ -4,7 +4,7 @@
     <uses-permission android:name="android.permission.INTERNET"/>
     <application
         android:label="Автобусы Пскова Табло"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/ic_launcher_bus"
         android:usesCleartextTraffic="true"
         tools:targetApi="m">
 

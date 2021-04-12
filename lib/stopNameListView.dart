@@ -1,5 +1,5 @@
-
-
+import 'package:flutter/foundation.dart';
+import 'package:provider/provider.dart';
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:pskov_bus_5/response.dart';
@@ -36,13 +36,15 @@ int favId=0;
 //Favorite fav=Favorite([], [], []);
 
 class StopNameListView extends StatefulWidget{
- final Favorite fav;
+ //final Favorite fav;
 
 
-StopNameListView(  {Key? key, required this.fav, }):super(key: key);
+StopNameListView(  {Key? key,  }):super(key: key);
+
+//final Widget child;
 
 @override
-_StopNameListViewState createState()=>_StopNameListViewState(this.fav);
+_StopNameListViewState createState()=>_StopNameListViewState();
 
 }
 
@@ -50,25 +52,48 @@ class _StopNameListViewState extends State<StopNameListView>{
 
 late Future <int> fav1,fav2,fav3,fav4,fav5,favCounter;
 
-  var fav;
+Favorite fav=Favorite([], [], []);
 
-  _StopNameListViewState(this.fav);
+  _StopNameListViewState();
 
 
+
+
+/*  @override
+  Widget build(BuildContext context){
+    return Provider.value(
+      value: fav,
+      child: Provider.value(
+          value: this,
+      child: widget.child,),
+    );
+  }*/
+// void _onChangeState(newData){
+//   setState(() {
+//     fav=newData;
+//   });
+// }
 
   @override
   void initState(){
     super.initState();
 
 
+/*
+Consumer<Favorite>(
+  builder: (context, value,child),
+      fav=value;
+)
+*/
+
+   // Favorite fav=Provider.of<Favorite>(context);
 
 
-
-
-
+fav=context.read<Favorite>();
 
 
       setState(() {
+
         loadFavorite();
 
         if (favList.isEmpty){
@@ -92,7 +117,7 @@ late Future <int> fav1,fav2,fav3,fav4,fav5,favCounter;
 
 
         if (favList.isNotEmpty){
-        print("********Добавили favList::::: $favList");
+       // print("********Добавили favList::::: $favList");
           stopListMix.addAll(favList);
           routeListMix.addAll(favListRoutes);
 
@@ -114,7 +139,6 @@ late Future <int> fav1,fav2,fav3,fav4,fav5,favCounter;
 
 
   }
-
 
 
   @override
@@ -158,7 +182,7 @@ late Future <int> fav1,fav2,fav3,fav4,fav5,favCounter;
                         final snackBar = SnackBar(content: Text(' Длинное нажатие добавляет в начало списка!'));
                         ScaffoldMessenger.of(context).showSnackBar(snackBar);
                       }
-                                print ("fetchData stopId:$stopId");
+                                print ("Запрос расписания stopId:$stopId");
                      // result.timeTable=timeTableList.timeTable;
 
                       response=fetchDatas(stopId,index);
@@ -223,7 +247,7 @@ late Future <int> fav1,fav2,fav3,fav4,fav5,favCounter;
 
     SharedPreferencesUtil.saveData("fav$favPointer", stopId);
   //  SharedPreferencesUtil.saveData("favCounter", favouriteCounter);
-    print ("******ЗАПИСАНО:     $stopUser,  favoriteCounter: $favouriteCounter, favPointer: $favPointer , StopID:   $stopId, index: $index", );
+    print ("******ЗАПИСАНО:     $stopUser,  fCounter: $favouriteCounter, fPointer: $favPointer , StopID:   $stopId, index: $index", );
 
 
 
