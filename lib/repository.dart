@@ -43,17 +43,17 @@ Future <Result>?  response;
 
         for (final element in elements){
           final href=element.attributes["href"]!;
-          if (href.contains("?mr_id=")& (element.text.length<4)){
+          if (href.contains("?mr_id=")& (element.text.length<5)){
 
             switch(element.text.length){
               case 1:
-                spaceFrmt="     ";//3 space
+                spaceFrmt="        ";//3 space
                 break;
               case 2:
-                spaceFrmt="   "; //2 space
+                spaceFrmt="      "; //2 space
             break;
               case 3:
-                spaceFrmt="  ";//1 space
+                spaceFrmt="    ";//1 space
                 break;
                 case 4:
                 spaceFrmt=" ";//1 space

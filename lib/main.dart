@@ -70,7 +70,7 @@ void initState(){
     Provider.of<Favorite>(context, listen: false).favListId=fav.favListId;
     Provider.of<Favorite>(context, listen: false).favListRoutes=fav.favListRoutes;
 
-      print("******** setState in main::::: ${Provider.of<Favorite>(context, listen: false).favList}");
+     // print("******** setState in main::::: ${Provider.of<Favorite>(context, listen: false).favList}");
     });
 
   });
@@ -99,20 +99,32 @@ void initState(){
                           builder: (context) => StopNameListView()));
 
 
+                /*  final snackBar = SnackBar(
+                  content: Text(' Длинное нажатие добавляет в начало списка!'),
+                  padding: const EdgeInsets.symmetric(
+                  horizontal: 8.0, // Inner padding for SnackBar content.
+                  ),
+                  backgroundColor: Colors.lime,
+                  );
+                  ScaffoldMessenger.of(context).showSnackBar(snackBar);*/
+
+
+
                   setState(() {
                     stopUser = response!.stopName??"Не выбрана";
 
                   });
+
                 },
                 child: Text(
                   "Выбрать остановку",
-                  style: TextStyle(fontSize: 18),
+                  style: TextStyle(fontSize: 17),
                 )),
             Padding(
-              padding: EdgeInsets.all(3),
+              padding: EdgeInsets.all(10),
               child: Text(
                 '$stopUser',
-                style: TextStyle(fontSize: 17),
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
               ),
             ),
             Padding(
@@ -120,6 +132,7 @@ void initState(){
                 child: Container(
 
                   color: colorBkgr,
+                 // color: Colors.amber,
                   constraints: BoxConstraints(maxHeight: 390),
                   //constraints: BoxConstraints(maxWidth: 190),
                   child: TimeTableListView(),
@@ -161,15 +174,15 @@ class _TimeTableListViewState extends State<TimeTableListView> {
 
                     itemBuilder: (BuildContext context, int index) {
                       return Container(
-                        height: 18,
+                        height: 20,
                         child: RichText(
                           text: TextSpan(
                             text:snapshot.data!.routes[index],
-                            style: TextStyle(fontSize: 16,fontWeight: FontWeight.bold,color: Colors.black),
+                            style: TextStyle(fontSize: 17,fontWeight: FontWeight.bold,color: Colors.black),
                             children:<TextSpan>[
                               TextSpan(
                                   text: snapshot.data!.timeTable[index],
-                                  style: TextStyle(fontSize: 15,fontWeight: FontWeight.normal,color: Colors.black)
+                                  style: TextStyle(fontSize: 17,fontWeight: FontWeight.normal,color: Colors.black)
                               )
                             ],
                           ),

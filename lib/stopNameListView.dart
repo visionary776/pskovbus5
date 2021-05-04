@@ -63,17 +63,17 @@ int _selectedIndex = -1;
 
       setState(() {
         fav= Provider.of<Favorite>(context, listen: false);
-        print("******** favList from Provider::::: ${fav.favList}");
+      //  print("******** favList from Provider::::: ${fav.favList}");
 
         loadFavorite();
-        print("******** favList from loadFavorite() in  init::::: ${favList}");
+      //  print("******** favList from loadFavorite() in  init::::: ${favList}");
         if (favList.isEmpty){
           favListId=fav.favListId;
           favList=fav.favList;
           favListRoutes=fav.favListRoutes;
           favouriteCounter=favList.length;
 
-          print("****Скопировали из Provider!!");
+       //   print("****Скопировали из Provider!!");
         }
 
 
@@ -137,6 +137,8 @@ int _selectedIndex = -1;
 
 
 
+
+
                     onTap: (){
                       setState(() {
                         // устанавливаем индекс выделенного элемента
@@ -144,20 +146,19 @@ int _selectedIndex = -1;
                       });
 
 
-                      stopId=stopsListClass.getId(index);
+                        if(favList.isEmpty){
+                      showSnackBar(' Длинное нажатие добавляет в начало списка!');
+                        }
 
                       if(favouriteCounter>0 && favList.isNotEmpty){
                          if(index>=favouriteCounter) {
                            stopId=stopsListClass.getId(index-favouriteCounter);
-                         }else if(favListId.isNotEmpty){
-                           stopId=favListId[index];
+                               }else if(favListId.isNotEmpty){
+                                     stopId=favListId[index];
+                                        }
+                           }else{
+                        stopId=stopsListClass.getId(index);
 
-
-
-                         }
-                      }else{
-                        final snackBar = SnackBar(content: Text(' Длинное нажатие добавляет в начало списка!'));
-                        ScaffoldMessenger.of(context).showSnackBar(snackBar);
                       }
                                 print ("Запрос расписания stopId:$stopId");
                      // result.timeTable=timeTableList.timeTable;
@@ -173,8 +174,7 @@ int _selectedIndex = -1;
                      response=fetchDatas(stopId,index);
 
 
-                        final snackBar = SnackBar(content: Text('$stopUser Добавлена в мои остановки!'));
-                        ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                       showSnackBar('$stopUser Добавлена в мои остановки!');
                         Navigator.pop(context, response);
                       });
                     }
@@ -250,5 +250,28 @@ void loadFavorite(){
   });
 }
 
+void showSnackBar(String massage){
+  final snackBar = SnackBar(
+    content: Text(massage,
+      textAlign: TextAlign.center,
+
+      style: TextStyle(color:Colors.black54),
+    ),
+    width: 330.0,
+    padding: const EdgeInsets.symmetric(
+      vertical: 8.0,
+      horizontal: 3.0,
+      // Inner padding for SnackBar content.
+    ),
+
+    backgroundColor: Colors.lime,
+    behavior: SnackBarBehavior.floating,
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(10.0),
+    ),
+  );
+  ScaffoldMessenger.of(context).showSnackBar(snackBar);
+
+}
 
 }
