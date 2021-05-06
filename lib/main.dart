@@ -15,7 +15,6 @@ import 'favorite.dart';
 Result result=Result([""], [""]);
 Future<Result> responseFuture=Future.value(result);
 Response? response=Response("", responseFuture);
-//Favorite favorite = Favorite([], [], []);
 var stopNameList = StopNameListView();
 
 void main() {
@@ -29,7 +28,7 @@ class MyApp extends StatelessWidget {
     return ChangeNotifierProvider<Favorite>(
       create: (context) => Favorite([], [], []),
       child: MaterialApp(
-        title: 'Автобусы Пскова табло',
+        title: 'Автобусы Псков.Табло',
         theme: ThemeData(
 
           primarySwatch: Colors.lightGreen,
@@ -37,7 +36,7 @@ class MyApp extends StatelessWidget {
           visualDensity: VisualDensity.adaptivePlatformDensity,
         ),
         home: MyHomePage(
-          title: 'Автобусы Пскова',
+          title: 'Автобусы Пскова. Табло',
 
         ),
       ),
@@ -70,7 +69,6 @@ void initState(){
     Provider.of<Favorite>(context, listen: false).favListId=fav.favListId;
     Provider.of<Favorite>(context, listen: false).favListRoutes=fav.favListRoutes;
 
-     // print("******** setState in main::::: ${Provider.of<Favorite>(context, listen: false).favList}");
     });
 
   });
@@ -99,17 +97,6 @@ void initState(){
                           builder: (context) => StopNameListView()));
 
 
-                /*  final snackBar = SnackBar(
-                  content: Text(' Длинное нажатие добавляет в начало списка!'),
-                  padding: const EdgeInsets.symmetric(
-                  horizontal: 8.0, // Inner padding for SnackBar content.
-                  ),
-                  backgroundColor: Colors.lime,
-                  );
-                  ScaffoldMessenger.of(context).showSnackBar(snackBar);*/
-
-
-
                   setState(() {
                     stopUser = response!.stopName??"Не выбрана";
 
@@ -132,7 +119,6 @@ void initState(){
                 child: Container(
 
                   color: colorBkgr,
-                 // color: Colors.amber,
                   constraints: BoxConstraints(maxHeight: 390),
                   //constraints: BoxConstraints(maxWidth: 190),
                   child: TimeTableListView(),
