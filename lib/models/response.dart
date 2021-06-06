@@ -1,4 +1,4 @@
-import 'package:pskov_bus_5/result.dart';
+import 'package:pskov_bus_5/models/result.dart';
 
 class Response{
 

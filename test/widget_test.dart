@@ -7,8 +7,8 @@
 
 //import 'package:flutter_test/flutter_test.dart';
 
-import 'package:pskov_bus_5/repository.dart';
-import 'package:pskov_bus_5/result.dart';
+import 'package:pskov_bus_5/repository/repository.dart';
+import 'package:pskov_bus_5/models/result.dart';
 import 'package:test/test.dart';
 
 void main() {

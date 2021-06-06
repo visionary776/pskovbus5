@@ -3,13 +3,13 @@ import 'package:flutter/foundation.dart';
 import 'package:provider/provider.dart';
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:pskov_bus_5/response.dart';
-import 'package:pskov_bus_5/result.dart';
-import 'package:pskov_bus_5/stopsList.dart';
-import 'colors.dart';
-import 'favorite.dart';
-import 'repository.dart';
-import 'package:pskov_bus_5/shared_preferences_util.dart';
+import 'package:pskov_bus_5/models/response.dart';
+import 'package:pskov_bus_5/models/result.dart';
+import 'package:pskov_bus_5/repository/stopsList.dart';
+import '../repository/colors.dart';
+import '../models/favorite.dart';
+import '../repository/repository.dart';
+import 'package:pskov_bus_5/repository/shared_preferences_util.dart';
 
 StopList stopsListClass=StopList();
 Repository repository=Repository();
@@ -228,6 +228,7 @@ int _selectedIndex = -1;
     response.futureResult=responseFuture;
     return response;
   }
+
  void addFavorite(int index){
 
 
@@ -255,7 +256,18 @@ int _selectedIndex = -1;
 
    }*/
 
-    SharedPreferencesUtil.saveData("fav$favPointer", stopId);
+   if(favouriteCounter>0){
+     print ("******условие сработало!! Counter>0 " );
+     for(int j=0;j<favListId.length;j++ ){
+       SharedPreferencesUtil.saveData("fav${j+2}", favListId[j]);
+
+       print ("******СДВИГ :    fav${j+2}, favListId[$j] " );
+       if (j==3) break;
+     }
+
+   }
+
+    SharedPreferencesUtil.saveData("fav1", stopId);
   //  SharedPreferencesUtil.saveData("favCounter", favouriteCounter);
     print ("******ЗАПИСАНО:     $stopUser,  fCounter: $favouriteCounter, fPointer: $favPointer , StopID:   $stopId, index: $index", );
 

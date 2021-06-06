@@ -1,12 +1,12 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:pskov_bus_5/response.dart';
-import 'package:pskov_bus_5/result.dart';
-import 'package:pskov_bus_5/stopNameListView.dart';
-import 'package:pskov_bus_5/shared_preferences_util.dart';
-import 'colors.dart';
-import 'favorite.dart';
+import 'package:pskov_bus_5/models/response.dart';
+import 'package:pskov_bus_5/models/result.dart';
+import 'package:pskov_bus_5/views/stopNameListView.dart';
+import 'package:pskov_bus_5/repository/shared_preferences_util.dart';
+import '../repository/colors.dart';
+import '../models/favorite.dart';
 
 
 

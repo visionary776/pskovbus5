@@ -2,8 +2,8 @@ import 'dart:core';
 import 'dart:core';
 
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:pskov_bus_5/stopsList.dart';
-import 'favorite.dart';
+import 'package:pskov_bus_5/repository/stopsList.dart';
+import '../models/favorite.dart';
 
 
 class SharedPreferencesUtil {

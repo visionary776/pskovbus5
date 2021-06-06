@@ -5,7 +5,7 @@ import 'dart:async';
 
 import 'package:http/http.dart' as http;
 import 'package:html/parser.dart' as html_parser;
-import 'package:pskov_bus_5/result.dart';
+import 'package:pskov_bus_5/models/result.dart';
 
 class Repository {
 

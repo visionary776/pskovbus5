@@ -1,4 +1,4 @@
-import 'package:pskov_bus_5/stop.dart';
+import 'package:pskov_bus_5/models/stop.dart';
 
 
 class StopList {
