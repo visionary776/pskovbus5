@@ -128,14 +128,14 @@ int _selectedIndex = -1;
                     return ListTile(
 
                       title:Text(stopListMix[index] ,
-                        style: TextStyle(fontSize: 17),) ,
+                        style: TextStyle(fontSize: 17)) ,
+                    // trailing: index<favouriteCounter?Icon(Icons.favorite):Icon(Icons.airport_shuttle),
+                     trailing: index<favouriteCounter?Icon(Icons.favorite):null,
+
                       subtitle: Text("   "+routeListMix[index],
                         style: TextStyle(fontSize: 13,fontStyle: FontStyle.italic, color: Colors.black54),) ,
                       selectedTileColor: Colors.limeAccent,
                       selected: index == _selectedIndex,
-
-
-
 
 
 
@@ -146,10 +146,6 @@ int _selectedIndex = -1;
                           _selectedIndex = index;
                         });
 
-
-                      /*    if(favList.isEmpty){
-                        showSnackBar(' Длинное нажатие добавляет в начало списка!');
-                          }*/
 
                         if(favouriteCounter>0 && favList.isNotEmpty){
                            if(index>=favouriteCounter) {
